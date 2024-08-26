@@ -6,6 +6,8 @@ import hre from "hardhat";
 
 const MOCK_CAMPAIGN_NAME = "MOCK_CAMPAIGN_NAME";
 const MOCK_CAMPAIGN_DESCRIPTION = "MOCK_CAMPAIGN_DESCRIPTION";
+const MOCK_GOAL = 1000;
+const MOCK_END_DATE = Math.floor(Date.now() / 1000) + 3600
 
 describe("CrowdFunding", () => {
   const deployCrowdFunding = async () => {
@@ -30,8 +32,8 @@ describe("CrowdFunding", () => {
       await crowdFundingContract.connect(owner).createCampaign(
         MOCK_CAMPAIGN_NAME,
         MOCK_CAMPAIGN_DESCRIPTION,
-        1000,
-        Math.floor(Date.now() / 1000) + 3600
+        MOCK_GOAL,
+        MOCK_END_DATE
       );
 
       const campaigns = await crowdFundingContract.getAllCampaigns();
@@ -44,8 +46,8 @@ describe("CrowdFunding", () => {
       await crowdFundingContract.connect(owner).createCampaign(
         MOCK_CAMPAIGN_NAME,
         MOCK_CAMPAIGN_DESCRIPTION,
-        1000,
-        Math.floor(Date.now() / 1000) + 3600
+        MOCK_GOAL,
+        MOCK_END_DATE
       );
 
       await crowdFundingContract.connect(otherAccount).contribute(0, { value: 500 });
@@ -58,8 +60,8 @@ describe("CrowdFunding", () => {
       await crowdFundingContract.connect(owner).createCampaign(
         MOCK_CAMPAIGN_NAME,
         MOCK_CAMPAIGN_DESCRIPTION,
-        1000,
-        Math.floor(Date.now() / 1000) + 3600
+        MOCK_GOAL,
+        MOCK_END_DATE
       );
       const campaign = await crowdFundingContract.getCampaign(0);
       expect(campaign[7]).to.equal(0);
