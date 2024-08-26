@@ -24,7 +24,7 @@ describe("CrowdFunding", () => {
   });
 
   describe("Actions", () => {
-    it("Should create a campaign", async () => {
+    it("should create a campaign", async () => {
       const { crowdFundingContract, owner} = await loadFixture(deployCrowdFunding);
 
       await crowdFundingContract.connect(owner).createCampaign(
@@ -39,7 +39,7 @@ describe("CrowdFunding", () => {
       expect(campaigns[0].title).to.equal(MOCK_CAMPAIGN_NAME);
     });
 
-    it("Should contribute to a campaign", async  () => {
+    it("should contribute to a campaign", async  () => {
       const { crowdFundingContract, owner, otherAccount} = await loadFixture(deployCrowdFunding);
       await crowdFundingContract.connect(owner).createCampaign(
         MOCK_CAMPAIGN_NAME,
@@ -51,6 +51,22 @@ describe("CrowdFunding", () => {
       await crowdFundingContract.connect(otherAccount).contribute(0, { value: 500 });
       const campaign = await crowdFundingContract.getCampaign(0);
       expect(campaign[8]).to.equal(500);
+    });
+
+    it("should delete a campaign", async  () => {
+      const { crowdFundingContract, owner, otherAccount} = await loadFixture(deployCrowdFunding);
+      await crowdFundingContract.connect(owner).createCampaign(
+        MOCK_CAMPAIGN_NAME,
+        MOCK_CAMPAIGN_DESCRIPTION,
+        1000,
+        Math.floor(Date.now() / 1000) + 3600
+      );
+      const campaign = await crowdFundingContract.getCampaign(0);
+      expect(campaign[7]).to.equal(0);
+
+      await crowdFundingContract.connect(owner).deleteCampaign(0);
+      const updatedCampaign = await crowdFundingContract.getCampaign(0);
+      expect(updatedCampaign[7]).to.equal(1);
     });
 })
 })
