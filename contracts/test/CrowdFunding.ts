@@ -1,0 +1,56 @@
+import {
+  loadFixture,
+} from "@nomicfoundation/hardhat-toolbox/network-helpers";
+import { expect } from "chai";
+import hre from "hardhat";
+
+const MOCK_CAMPAIGN_NAME = "MOCK_CAMPAIGN_NAME";
+const MOCK_CAMPAIGN_DESCRIPTION = "MOCK_CAMPAIGN_DESCRIPTION";
+
+describe("CrowdFunding", () => {
+  const deployCrowdFunding = async () => {
+    const [owner, otherAccount] = await hre.ethers.getSigners();
+    const CrowdFunding = await hre.ethers.getContractFactory("CrowdFunding");
+    const crowdFundingContract = await CrowdFunding.deploy();
+
+    return { crowdFundingContract, owner, otherAccount};
+  }
+
+  describe("Deployment", () => {
+    it("should set the right owner", async () => {
+      const { crowdFundingContract, owner} = await loadFixture(deployCrowdFunding);
+      expect(await crowdFundingContract.owner()).to.equal(owner.address);
+    })
+  });
+
+  describe("Actions", () => {
+    it("Should create a campaign", async () => {
+      const { crowdFundingContract, owner} = await loadFixture(deployCrowdFunding);
+
+      await crowdFundingContract.connect(owner).createCampaign(
+        MOCK_CAMPAIGN_NAME,
+        MOCK_CAMPAIGN_DESCRIPTION,
+        1000,
+        Math.floor(Date.now() / 1000) + 3600
+      );
+
+      const campaigns = await crowdFundingContract.getAllCampaigns();
+      expect(campaigns.length).to.equal(1);
+      expect(campaigns[0].title).to.equal(MOCK_CAMPAIGN_NAME);
+    });
+
+    it("Should contribute to a campaign", async  () => {
+      const { crowdFundingContract, owner, otherAccount} = await loadFixture(deployCrowdFunding);
+      await crowdFundingContract.connect(owner).createCampaign(
+        MOCK_CAMPAIGN_NAME,
+        MOCK_CAMPAIGN_DESCRIPTION,
+        1000,
+        Math.floor(Date.now() / 1000) + 3600
+      );
+
+      await crowdFundingContract.connect(otherAccount).contribute(0, { value: 500 });
+      const campaign = await crowdFundingContract.getCampaign(0);
+      expect(campaign[8]).to.equal(500);
+    });
+})
+})
