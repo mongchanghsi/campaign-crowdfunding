@@ -1,13 +1,9 @@
-# Sample Hardhat Project
+# CrowdFunding
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+## Description
 
-Try running some of the following tasks:
+Simple Crowdfunding contract that allows anyone to create a campaign and anyone to fund the campaign
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/CrowdFunding.ts
-```
+## Deployed
+
+Deployed in Sepolia Testnet [0xe34a2546a746280bb50E2872A3A4C85fC82c24BD](https://sepolia.etherscan.io/address/0xe34a2546a746280bb50E2872A3A4C85fC82c24BD)
