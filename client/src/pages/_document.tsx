@@ -1,4 +1,3 @@
-import Theme from "@/components/Shared/Theme/Theme";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -6,10 +5,8 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <body>
-        <Theme>
-          <Main />
-          <NextScript />
-        </Theme>
+        <Main />
+        <NextScript />
       </body>
     </Html>
   );

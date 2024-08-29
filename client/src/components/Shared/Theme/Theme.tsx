@@ -9,7 +9,7 @@ import LightTheme from "./tokens/light";
 import DarkTheme from "./tokens/dark";
 
 interface IProps {
-  children: React.ReactNode[];
+  children: React.ReactNode | React.ReactNode[];
 }
 
 const Theme: FC<IProps> = ({ children }) => {
