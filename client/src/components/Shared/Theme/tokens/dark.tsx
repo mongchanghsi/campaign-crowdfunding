@@ -1,10 +1,10 @@
 import { THEME } from "../type";
 
 const DarkTheme: THEME = {
-  primary: "#d3e3fd",
-  secondary: "#fffffe",
-  light: "#bdc1c6",
-  dark: "#4285f4",
+  primary: "#212121",
+  secondary: "#404040",
+  light: "#cecece",
+  dark: "#d3e3fd",
 };
 
 export default DarkTheme;
