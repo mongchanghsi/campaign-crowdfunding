@@ -11,7 +11,7 @@ const FeaturedCampaignList: FC<IProps> = ({ campaigns }) => {
   return (
     <FeaturedCampaignListContainer>
       {campaigns.map((campaign) => (
-        <CampaignPreviewCard campaign={campaign} />
+        <CampaignPreviewCard key={campaign.title} campaign={campaign} />
       ))}
     </FeaturedCampaignListContainer>
   );
