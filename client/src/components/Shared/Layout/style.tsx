@@ -21,6 +21,8 @@ export const LayoutContainer = styled.div`
 export const LayoutContent = styled.div<{ offset: number }>`
   position: relative;
   width: 100%;
+  padding: 24px 48px;
+  box-sizing: border-box;
 
   overflow-y: auto;
   overflow-x: hidden;
