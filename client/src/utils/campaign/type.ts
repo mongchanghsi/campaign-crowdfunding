@@ -4,6 +4,8 @@ export type CAMPAIGN = {
   description: string;
   goal: number;
   currentContribution: number;
-  conntributors: string[];
+  contributors: string[];
+  contributibutionAmounts: number[];
   endDate: number;
+  campaignCreator: string;
 };

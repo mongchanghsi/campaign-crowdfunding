@@ -30,6 +30,16 @@ class CampaignContract {
     });
     return data;
   }
+
+  async getCampaignById(campaignId: number) {
+    const client = this.getClient();
+    const data = await client.readContract({
+      ...this.getCampaignContractDetails(),
+      functionName: "getCampaign",
+      args: [campaignId],
+    });
+    return data;
+  }
 }
 
 const campaignContract = new CampaignContract();

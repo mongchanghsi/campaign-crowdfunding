@@ -2,6 +2,7 @@ import { CAMPAIGN } from "@/utils/campaign/type";
 import { FeaturedCampaignListContainer } from "./style";
 import { FC } from "react";
 import CampaignPreviewCard from "../CampaignPreviewCard";
+import Link from "next/link";
 
 interface IProps {
   campaigns: CAMPAIGN[];
@@ -11,7 +12,9 @@ const FeaturedCampaignList: FC<IProps> = ({ campaigns }) => {
   return (
     <FeaturedCampaignListContainer>
       {campaigns.map((campaign) => (
-        <CampaignPreviewCard key={campaign.title} campaign={campaign} />
+        <Link key={campaign.title} href={`/campaign/${campaign.campaignId}`}>
+          <CampaignPreviewCard campaign={campaign} />
+        </Link>
       ))}
     </FeaturedCampaignListContainer>
   );
