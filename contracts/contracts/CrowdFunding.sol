@@ -209,4 +209,30 @@ contract CrowdFunding {
             emit RefundMade(campaignId, contributor, contributionAmount);
         }
     }
+
+    function processSuccessfulCampaign(uint campaignId) public {
+        Campaign storage campaign = campaigns[campaignId];
+        require(
+            campaign.status == STATUS.SUCCESSFUL,
+            "Campaign is not successful"
+        );
+        payable(campaign.campaignCreator).transfer(campaign.totalContributions);
+    }
+
+    function processUnsuccessfulCampaign(uint campaignId) public {
+        Campaign storage campaign = campaigns[campaignId];
+        require(
+            campaign.status == STATUS.ACTIVE,
+            "Campaign is not in active state"
+        );
+        require(block.timestamp >= campaign.endsAt, "Campaign is not yet over");
+        require(
+            campaign.totalContributions < campaign.goal,
+            "Campaign has successfully reached its goal"
+        );
+
+        refund(campaignId);
+
+        campaign.status = STATUS.UNSUCCEEDED;
+    }
 }
