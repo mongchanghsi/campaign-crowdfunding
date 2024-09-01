@@ -1,10 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
-import {
-  ThemeEnum,
-  ThemeUpdaterProvider,
-  useThemeUpdater,
-} from "@/context/useThemeUpdater";
+import { ThemeEnum, useThemeUpdater } from "@/context/useThemeUpdater";
 import LightTheme from "./tokens/light";
 import DarkTheme from "./tokens/dark";
 
@@ -14,10 +10,18 @@ interface IProps {
 
 const Theme: FC<IProps> = ({ children }) => {
   const { theme } = useThemeUpdater();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // prevents ssr flash for mismatched dark mode
+  if (!mounted) return null;
 
   return (
     <ThemeProvider theme={theme === ThemeEnum.LIGHT ? LightTheme : DarkTheme}>
-      <ThemeUpdaterProvider>{children}</ThemeUpdaterProvider>
+      {children}
     </ThemeProvider>
   );
 };

@@ -10,6 +10,7 @@ import { RainbowKitProvider, type Locale } from "@rainbow-me/rainbowkit";
 import { walletConfig } from "@/configuration/wallet";
 import BaseFont from "@/styles/fonts";
 import Layout from "@/components/Shared/Layout";
+import { ThemeUpdaterProvider } from "@/context/useThemeUpdater";
 
 const queryClient = new QueryClient();
 
@@ -21,17 +22,19 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${BaseFont.style.fontFamily};
         }
       `}</style>
-      <Theme>
-        <WagmiProvider config={walletConfig}>
-          <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </RainbowKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
-      </Theme>
+      <ThemeUpdaterProvider>
+        <Theme>
+          <WagmiProvider config={walletConfig}>
+            <QueryClientProvider client={queryClient}>
+              <RainbowKitProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </RainbowKitProvider>
+            </QueryClientProvider>
+          </WagmiProvider>
+        </Theme>
+      </ThemeUpdaterProvider>
     </>
   );
 }

@@ -23,15 +23,10 @@ const ThemeUpdaterProvider = ({ children }: PropsWithChildren) => {
   const [theme, setTheme] = useState<ThemeEnum>(ThemeEnum.LIGHT);
 
   const toggleTheme = () => {
-    setTheme((prev) => {
-      if (prev === ThemeEnum.LIGHT) {
-        localStorage.setItem(STORAGE.theme, ThemeEnum.DARK);
-        return ThemeEnum.DARK;
-      } else {
-        localStorage.setItem(STORAGE.theme, ThemeEnum.LIGHT);
-        return ThemeEnum.LIGHT;
-      }
-    });
+    const newTheme =
+      theme === ThemeEnum.LIGHT ? ThemeEnum.DARK : ThemeEnum.LIGHT;
+    localStorage.setItem(STORAGE.theme, newTheme);
+    setTheme(newTheme);
   };
 
   useEffect(() => {

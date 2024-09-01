@@ -26,3 +26,9 @@ export const NavigationIcon = styled.div`
     color: ${theme.dark};
   `};
 `;
+
+export const NavigationSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
