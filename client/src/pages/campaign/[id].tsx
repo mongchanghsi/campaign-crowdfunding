@@ -9,5 +9,6 @@ export default function CampaignById() {
 
   if (loading) return <p>Loading...</p>;
   if (!loading && !data) return <p>No data found</p>;
+
   return <CampaignDetails campaign={data!!} />;
 }
