@@ -21,7 +21,7 @@ const CampaignDetails: FC<IProps> = ({ campaign }) => {
         {campaign.description}
       </CampaignDetailsDescription>
       <ProgressBar
-        currentValue={0.2}
+        currentValue={campaign.currentContribution}
         maxValue={campaign.goal}
         round={2}
         currency={"ETH"}
