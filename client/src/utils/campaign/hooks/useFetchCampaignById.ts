@@ -13,7 +13,7 @@ const useFetchCampaignById = (campaignId: number) => {
       title: data[2],
       description: data[3],
       goal: +formatEther(data[4]),
-      currentContribution: Number(data[8]),
+      currentContribution: +formatEther(data[8]),
       contributors: data[9],
       contributibutionAmounts: data[10],
       endDate: Number(data[6]),

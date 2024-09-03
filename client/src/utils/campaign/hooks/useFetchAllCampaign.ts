@@ -14,7 +14,7 @@ const useFetchAllCampaign = () => {
         title: _data.title,
         description: _data.description,
         goal: +formatEther(_data.goal),
-        currentContribution: Number(_data.totalContributions),
+        currentContribution: +formatEther(_data.totalContributions),
         contributors: _data.contributors,
         contributibutionAmounts: _data.contributionAmounts,
         endDate: Number(_data.endsAt),
