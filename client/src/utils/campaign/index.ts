@@ -81,8 +81,6 @@ class CampaignContract {
       const [account] = await walletClient.getAddresses();
       const contractDetails = await this.getCampaignContractDetails();
 
-      console.log("parseEther(goal)", parseEther(goal));
-      console.log("endDate", endDate);
       const { request } = await client.simulateContract({
         ...contractDetails,
         functionName: "createCampaign",
