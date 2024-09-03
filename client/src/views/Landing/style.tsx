@@ -14,3 +14,12 @@ export const LandingTitle = styled.h2`
     color: ${theme.dark};
   `};
 `;
+
+export const LandingHeader = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const LandingButton = styled.button``;

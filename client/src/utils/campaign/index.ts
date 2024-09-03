@@ -1,6 +1,12 @@
 import ENVIRONMENT from "@/configuration/environment";
 import CrowdFundingAbi from "@/contracts/CrowdFunding.json";
-import { createPublicClient, http } from "viem";
+import {
+  createPublicClient,
+  http,
+  createWalletClient,
+  custom,
+  parseEther,
+} from "viem";
 import { sepolia } from "viem/chains";
 import CONTRACT_ADDRESSES from "@/contracts/address.json";
 
@@ -9,6 +15,13 @@ class CampaignContract {
     return createPublicClient({
       chain: sepolia,
       transport: http(),
+    });
+  }
+
+  private getWalletClient() {
+    return createWalletClient({
+      chain: sepolia,
+      transport: custom(window.ethereum),
     });
   }
 
@@ -53,6 +66,36 @@ class CampaignContract {
       return data;
     } catch (error) {
       return null;
+    }
+  }
+
+  async createCampaign(
+    title: string,
+    description: string,
+    goal: string,
+    endDate: number
+  ) {
+    try {
+      const client = this.getClient();
+      const walletClient = this.getWalletClient();
+      const [account] = await walletClient.getAddresses();
+      const contractDetails = await this.getCampaignContractDetails();
+
+      console.log("parseEther(goal)", parseEther(goal));
+      console.log("endDate", endDate);
+      const { request } = await client.simulateContract({
+        ...contractDetails,
+        functionName: "createCampaign",
+        args: [title, description, parseEther(goal), endDate],
+        account,
+      });
+      const hash = await walletClient.writeContract(request);
+      const transaction = await client.waitForTransactionReceipt({ hash });
+      return transaction.transactionHash;
+    } catch (error) {
+      // TODO: Handle Error
+      console.log("Error", error);
+      return "";
     }
   }
 }

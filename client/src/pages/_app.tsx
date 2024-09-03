@@ -11,6 +11,7 @@ import { walletConfig } from "@/configuration/wallet";
 import BaseFont from "@/styles/fonts";
 import Layout from "@/components/Shared/Layout";
 import { ThemeUpdaterProvider } from "@/context/useThemeUpdater";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,13 @@ export default function App({ Component, pageProps }: AppProps) {
         html {
           font-family: ${BaseFont.style.fontFamily};
         }
+
+        input,
+        textarea {
+          font-family: ${BaseFont.style.fontFamily};
+        }
       `}</style>
+      <Toaster position="bottom-right" reverseOrder={false} />
       <ThemeUpdaterProvider>
         <Theme>
           <WagmiProvider config={walletConfig}>
