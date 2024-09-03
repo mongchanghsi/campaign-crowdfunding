@@ -30,3 +30,17 @@ export const CampaignDetailsLabel = styled.p`
     color: ${theme.secondary};
   `};
 `;
+
+export const CampaignDetailsField = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const CampaignDetailsFieldInput = styled.input`
+  padding: 12px;
+`;
+
+export const CampaignDetailsButton = styled.button`
+  padding: 12px;
+`;

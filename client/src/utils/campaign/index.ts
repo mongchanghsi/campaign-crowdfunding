@@ -96,6 +96,30 @@ class CampaignContract {
       return "";
     }
   }
+
+  async donate(campaignId: number, amount: string) {
+    try {
+      const client = this.getClient();
+      const walletClient = this.getWalletClient();
+      const [account] = await walletClient.getAddresses();
+      const contractDetails = await this.getCampaignContractDetails();
+
+      const { request } = await client.simulateContract({
+        ...contractDetails,
+        functionName: "contribute",
+        args: [campaignId],
+        value: parseEther(amount),
+        account,
+      });
+      const hash = await walletClient.writeContract(request);
+      const transaction = await client.waitForTransactionReceipt({ hash });
+      return transaction.transactionHash;
+    } catch (error) {
+      // TODO: Handle Error
+      console.log("Error", error);
+      return "";
+    }
+  }
 }
 
 const campaignContract = new CampaignContract();
