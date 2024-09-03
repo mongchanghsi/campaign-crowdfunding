@@ -2,6 +2,7 @@ import ENVIRONMENT from "@/configuration/environment";
 import CrowdFundingAbi from "@/contracts/CrowdFunding.json";
 import { createPublicClient, http } from "viem";
 import { sepolia } from "viem/chains";
+import CONTRACT_ADDRESSES from "@/contracts/address.json";
 
 class CampaignContract {
   private getClient() {
@@ -11,20 +12,25 @@ class CampaignContract {
     });
   }
 
-  private getCampaignContractDetails(): {
+  private async getCampaignContractDetails(): Promise<{
     address: `0x${string}`;
     abi: any;
-  } {
+  }> {
+    const client = this.getClient();
+    const chainId = await client.getChainId();
     return {
-      address: ENVIRONMENT.crowdfundingContractAddress as `0x${string}`,
+      address: (CONTRACT_ADDRESSES as any)[chainId.toString()][
+        "CrowdFunding"
+      ] as `0x${string}`,
       abi: CrowdFundingAbi.abi,
     };
   }
 
   async getCampaigns() {
     const client = this.getClient();
+    const contractDetails = await this.getCampaignContractDetails();
     const data = await client.readContract({
-      ...this.getCampaignContractDetails(),
+      ...contractDetails,
       functionName: "getAllCampaigns",
       args: [],
     });
@@ -33,8 +39,9 @@ class CampaignContract {
 
   async getCampaignById(campaignId: number) {
     const client = this.getClient();
+    const contractDetails = await this.getCampaignContractDetails();
     const data = await client.readContract({
-      ...this.getCampaignContractDetails(),
+      ...contractDetails,
       functionName: "getCampaign",
       args: [campaignId],
     });
