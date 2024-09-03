@@ -6,16 +6,6 @@ const getChainArgs = (args) => {
   return args[2];
 };
 
-// Find does file exist
-// If file does not exist,
-// Create file,
-// Else rewrite the file
-const finalContractAddressFormat = {
-  11155111: {
-    CrowdFunding: "XXX",
-  },
-};
-
 const destinationDir = "./src/contracts";
 const contractsDir = "../contracts/ignition/deployments";
 
