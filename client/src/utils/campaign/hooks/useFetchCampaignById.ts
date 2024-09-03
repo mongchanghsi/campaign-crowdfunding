@@ -5,7 +5,7 @@ import { formatEther } from "viem";
 
 const useFetchCampaignById = (campaignId: number) => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [data, setData] = useState<CAMPAIGN>();
+  const [data, setData] = useState<CAMPAIGN | null>(null);
 
   const transformData = (data: any[]): CAMPAIGN => {
     return {
@@ -24,7 +24,7 @@ const useFetchCampaignById = (campaignId: number) => {
   const fetchData = async () => {
     setLoading(true);
     const data: any = await campaignContract.getCampaignById(campaignId);
-    setData(transformData(data));
+    setData(data ? transformData(data) : null);
     setLoading(false);
   };
 

@@ -27,25 +27,33 @@ class CampaignContract {
   }
 
   async getCampaigns() {
-    const client = this.getClient();
-    const contractDetails = await this.getCampaignContractDetails();
-    const data = await client.readContract({
-      ...contractDetails,
-      functionName: "getAllCampaigns",
-      args: [],
-    });
-    return data;
+    try {
+      const client = this.getClient();
+      const contractDetails = await this.getCampaignContractDetails();
+      const data = await client.readContract({
+        ...contractDetails,
+        functionName: "getAllCampaigns",
+        args: [],
+      });
+      return data;
+    } catch (error) {
+      return [];
+    }
   }
 
   async getCampaignById(campaignId: number) {
-    const client = this.getClient();
-    const contractDetails = await this.getCampaignContractDetails();
-    const data = await client.readContract({
-      ...contractDetails,
-      functionName: "getCampaign",
-      args: [campaignId],
-    });
-    return data;
+    try {
+      const client = this.getClient();
+      const contractDetails = await this.getCampaignContractDetails();
+      const data = await client.readContract({
+        ...contractDetails,
+        functionName: "getCampaign",
+        args: [campaignId],
+      });
+      return data;
+    } catch (error) {
+      return null;
+    }
   }
 }
 
