@@ -8,4 +8,4 @@ To simply practice a full end-to-end a contract development to a dApp integratio
 
 ## Key Developments Pointers
 - For client, there's a theme switcher set in place with styled-components
-- As the contract folder and client folder are separated, I have developed a script `node run import-contracts` to transfer the generated ABI and the contract address to the cient folder, this will enhance my development experience in the future if I were to deploy the same contract multiple times with enhancements. Furthermore, I am looking to enhance the script to take in multiple chains
+- As the contract folder and client folder are separated, I have developed a script `npm run import-contracts` to transfer the generated ABI and the contract address to the cient folder, this will enhance my development experience in the future if I were to deploy the same contract multiple times with enhancements. Furthermore, I am looking to enhance the script to take in multiple chains
