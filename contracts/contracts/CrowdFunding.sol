@@ -41,14 +41,9 @@ contract CrowdFunding {
     event CampaignCreated(
         uint indexed campaignId,
         address campaignCreator,
-        string title,
-        STATUS status
+        string title
     );
-    event CampaignDeleted(
-        uint indexed campaignId,
-        address campaignCreator,
-        STATUS status
-    );
+    event CampaignDeleted(uint indexed campaignId, address campaignCreator);
     event ContributionMade(
         uint indexed campaignId,
         address contributor,
@@ -151,12 +146,7 @@ contract CrowdFunding {
             )
         );
 
-        emit CampaignCreated(
-            nextCampaignId - 1,
-            msg.sender,
-            title,
-            STATUS.ACTIVE
-        );
+        emit CampaignCreated(nextCampaignId - 1, msg.sender, title);
 
         nextCampaignId++;
     }
@@ -193,7 +183,7 @@ contract CrowdFunding {
         refund(campaignId);
 
         campaign.status = STATUS.DELETED;
-        emit CampaignDeleted(campaignId, msg.sender, STATUS.DELETED);
+        emit CampaignDeleted(campaignId, msg.sender);
     }
 
     function refund(uint campaignId) internal {
