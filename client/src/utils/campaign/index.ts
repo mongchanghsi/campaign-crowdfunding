@@ -135,7 +135,6 @@ class CampaignContract {
         poll: true,
         pollingInterval: 60 * 10 * 1_000, // Poll every 10 minutes
       });
-      console.log("Watching", watcher);
     } catch (error) {
       console.log("Error", error);
     }
