@@ -9,6 +9,7 @@ import {
 } from "viem";
 import { sepolia } from "viem/chains";
 import CONTRACT_ADDRESSES from "@/contracts/address.json";
+import { CAMPAIGN_CREATED_EVENT } from "./event";
 
 class CampaignContract {
   private getClient() {
@@ -128,9 +129,7 @@ class CampaignContract {
       const contractDetails = await this.getCampaignContractDetails();
       const watcher = client.watchEvent({
         address: contractDetails.address,
-        event: parseAbiItem(
-          "event CampaignCreated(uint indexed campaignId, address campaignCreator, string title)"
-        ),
+        event: parseAbiItem(CAMPAIGN_CREATED_EVENT),
         onLogs: (logs) => callback(),
         onError: (error) => console.log("Error", error),
         poll: true,
