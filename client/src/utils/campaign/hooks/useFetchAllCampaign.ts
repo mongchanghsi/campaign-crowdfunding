@@ -24,15 +24,16 @@ const useFetchAllCampaign = () => {
   };
 
   const fetchData = async () => {
-    setLoading(true);
     const data: any = await campaignContract.getCampaigns();
     const processed = transformData(data);
     setData(processed);
-    setLoading(false);
   };
 
   useEffect(() => {
+    setLoading(true);
+    campaignContract.listenToNewCampaign(fetchData);
     fetchData();
+    setLoading(false);
   }, []);
 
   return { data, loading };

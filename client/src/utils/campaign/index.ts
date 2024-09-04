@@ -1,4 +1,3 @@
-import ENVIRONMENT from "@/configuration/environment";
 import CrowdFundingAbi from "@/contracts/CrowdFunding.json";
 import {
   createPublicClient,
@@ -6,6 +5,7 @@ import {
   createWalletClient,
   custom,
   parseEther,
+  parseAbiItem,
 } from "viem";
 import { sepolia } from "viem/chains";
 import CONTRACT_ADDRESSES from "@/contracts/address.json";
@@ -118,6 +118,27 @@ class CampaignContract {
       // TODO: Handle Error
       console.log("Error", error);
       return "";
+    }
+  }
+
+  async listenToNewCampaign(callback: () => void) {
+    // Improvement: Update Event to include required fields for Landing page, so don't need to refetch everything
+    try {
+      const client = this.getClient();
+      const contractDetails = await this.getCampaignContractDetails();
+      const watcher = client.watchEvent({
+        address: contractDetails.address,
+        event: parseAbiItem(
+          "event CampaignCreated(uint indexed campaignId, address campaignCreator, string title)"
+        ),
+        onLogs: (logs) => callback(),
+        onError: (error) => console.log("Error", error),
+        poll: true,
+        pollingInterval: 60 * 10 * 1_000, // Poll every 10 minutes
+      });
+      console.log("Watching", watcher);
+    } catch (error) {
+      console.log("Error", error);
     }
   }
 }
