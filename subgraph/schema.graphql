@@ -1,0 +1,38 @@
+type CampaignCreated @entity(immutable: true) {
+  id: Bytes!
+  campaignId: BigInt! # uint256
+  campaignCreator: Bytes! # address
+  title: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type CampaignDeleted @entity(immutable: true) {
+  id: Bytes!
+  campaignId: BigInt! # uint256
+  campaignCreator: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ContributionMade @entity(immutable: true) {
+  id: Bytes!
+  campaignId: BigInt! # uint256
+  contributor: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RefundMade @entity(immutable: true) {
+  id: Bytes!
+  campaignId: BigInt! # uint256
+  contributor: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

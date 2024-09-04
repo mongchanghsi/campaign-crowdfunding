@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "CrowdFunding": {
+      "address": "0xfB93ccA4A65Dfa6A2F649a7E7f6bf97B6a77B82B",
+      "startBlock": 6631092
+    }
+  }
+}
