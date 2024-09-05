@@ -6,10 +6,11 @@ import {
   custom,
   parseEther,
   parseAbiItem,
+  formatEther,
 } from "viem";
 import { sepolia } from "viem/chains";
 import CONTRACT_ADDRESSES from "@/contracts/address.json";
-import { CAMPAIGN_CREATED_EVENT } from "./event";
+import { CAMPAIGN_CREATED_EVENT, CONTRIBUTION_EVENT } from "./event";
 
 class CampaignContract {
   private getClient() {
@@ -134,6 +135,39 @@ class CampaignContract {
         onError: (error) => console.log("Error", error),
         poll: true,
         pollingInterval: 60 * 10 * 1_000, // Poll every 10 minutes
+      });
+    } catch (error) {
+      console.log("Error", error);
+    }
+  }
+
+  // TODO: Research why is there multiple logs happening for 1 event
+  // Temporary to cache the incoming transaction hash of the event and cache it
+  eventCache: { [key: `0x${string}`]: boolean } = {};
+
+  async listenToContribution(
+    callback: (account: `0x${string}`, amount: number) => void
+  ) {
+    try {
+      const client = this.getClient();
+      const walletClient = this.getWalletClient();
+      const [account] = await walletClient.getAddresses();
+      const contractDetails = await this.getCampaignContractDetails();
+      const watcher = client.watchEvent({
+        address: contractDetails.address,
+        event: parseAbiItem(CONTRIBUTION_EVENT),
+        onLogs: (logs) => {
+          const { contributor, amount } = logs[0].args;
+          if (!this.eventCache[logs[0].transactionHash]) {
+            this.eventCache[logs[0].transactionHash] = true;
+            if (account.toLowerCase() !== contributor?.toLowerCase()) {
+              // Only if the connected wallet and the contributor are different then trigger toast
+              const _amount = +formatEther(amount!);
+              callback(contributor!, _amount);
+            }
+          }
+        },
+        onError: (error) => console.log("Error", error),
       });
     } catch (error) {
       console.log("Error", error);
